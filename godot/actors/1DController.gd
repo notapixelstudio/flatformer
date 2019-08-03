@@ -9,5 +9,4 @@ func _physics_process(delta):
 
 func set_velocity(new_velocity):
 	velocity = new_velocity
-	print(velocity)
 
