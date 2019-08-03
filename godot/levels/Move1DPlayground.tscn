@@ -72,7 +72,7 @@ acceleration_factor = 1.77531
 
 [node name="Stop" parent="1DActor/Actions" instance=ExtResource( 11 )]
 actor_path = NodePath("../../../Path2D/1DController")
-friction_factor = 2.18567
+friction_factor = 4.0786
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="1DActor"]
 remote_path = NodePath("../../Camera2D")
@@ -95,6 +95,8 @@ current = true
 [connection signal="finished" from="1DActor/Actions/Dash" to="1DActor/Controller/Left" method="is_holding"]
 [connection signal="finished" from="1DActor/Actions/Dash" to="1DActor/Actions/Dash/OffsetLimit" method="set_enabled" binds= [ false ]]
 [connection signal="started" from="1DActor/Actions/Dash" to="1DActor/Actions/Dash/OffsetLimit" method="set_enabled" binds= [ true ]]
+[connection signal="started" from="1DActor/Actions/Dash" to="1DActor/Actions/Stop" method="cancel"]
 [connection signal="started" from="1DActor/Actions/Dash/OffsetLimit" to="1DActor/Actions/Dash" method="cancel"]
+[connection signal="started" from="1DActor/Actions/Move" to="1DActor/Actions/Stop" method="cancel"]
 [connection signal="started" from="1DActor/Actions/Stop" to="1DActor/Actions/Dash" method="cancel"]
 [connection signal="started" from="1DActor/Actions/Stop" to="1DActor/Actions/Move" method="cancel"]

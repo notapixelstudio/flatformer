@@ -15,4 +15,5 @@ func execute():
 
 
 func cancel():
+	set_physics_process(false)
 	emit_signal("finished")
