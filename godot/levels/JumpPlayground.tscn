@@ -1,28 +1,22 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://actors/PlatformActor.gd" type="Script" id=1]
 [ext_resource path="res://utility/Geometry2D.gd" type="Script" id=2]
-[ext_resource path="res://actors/ActionBus.gd" type="Script" id=3]
-[ext_resource path="res://actors/Walk.gd" type="Script" id=4]
-[ext_resource path="res://objects/InfiniteVoid.tscn" type="PackedScene" id=5]
-[ext_resource path="res://objects/platforms/StaticPlatform.tscn" type="PackedScene" id=6]
-[ext_resource path="res://objects/platforms/moving_platform/MovingPlatform.tscn" type="PackedScene" id=7]
-[ext_resource path="res://objects/platforms/moving_platform/movement_paths/VerticalPath.tres" type="Curve2D" id=8]
-[ext_resource path="res://objects/platforms/moving_platform/movement_paths/CirclePath.tres" type="Curve2D" id=9]
+[ext_resource path="res://actors/Jump.gd" type="Script" id=3]
+[ext_resource path="res://actors/ActionBus.gd" type="Script" id=4]
+[ext_resource path="res://actors/Walk.gd" type="Script" id=5]
+[ext_resource path="res://areas/Ground.tscn" type="PackedScene" id=6]
+[ext_resource path="res://areas/Stairs.tscn" type="PackedScene" id=7]
+[ext_resource path="res://objects/InfiniteVoid.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 60, 20 )
+extents = Vector2( 40, 64 )
 
 [sub_resource type="LineShape2D" id=2]
 normal = Vector2( 1, 0 )
 
 [sub_resource type="LineShape2D" id=3]
 normal = Vector2( -1, 0 )
-
-[sub_resource type="Curve2D" id=4]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -144, -368, 0, 0, 0, 0, 160, -672, 0, 0, 0, 0, -144, -1136, 0, 0, 0, 0, 144, -1648, 0, 0, 0, 0, 1328, -1648 )
-}
 
 [node name="JumpPlayground" type="Node2D"]
 __meta__ = {
@@ -42,16 +36,19 @@ script = ExtResource( 1 )
 position = Vector2( 0, -64 )
 shape = SubResource( 1 )
 script = ExtResource( 2 )
-color = Color( 1, 1, 1, 1 )
+
+[node name="Jump" type="Node" parent="SingleJumpPlatformActor"]
+script = ExtResource( 3 )
+platform_actor_path = NodePath("../../SingleJumpPlatformActor")
+strength = 1000.0
+max_jumps = 1
 
 [node name="ActionBus" type="Node" parent="SingleJumpPlatformActor"]
-script = ExtResource( 3 )
-jump = ""
+script = ExtResource( 4 )
 
 [node name="Walk" type="Node" parent="SingleJumpPlatformActor"]
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 platform_actor_path = NodePath("../../SingleJumpPlatformActor")
-speed = 800.0
 
 [node name="CameraRig" type="RemoteTransform2D" parent="SingleJumpPlatformActor"]
 remote_path = NodePath("../../Camera2D")
@@ -70,6 +67,29 @@ drag_margin_right = 0.0
 editor_draw_limits = true
 editor_draw_drag_margin = true
 
+[node name="Floor" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 0, 960 )
+
+[node name="Ground" parent="Floor" instance=ExtResource( 6 )]
+
+[node name="Ground2" parent="Floor" instance=ExtResource( 6 )]
+position = Vector2( 2240, 0 )
+
+[node name="Stairs" parent="Floor" instance=ExtResource( 7 )]
+position = Vector2( 2864, -248 )
+
+[node name="Ground3" parent="Floor" instance=ExtResource( 6 )]
+position = Vector2( 4904, -88 )
+polygon = PoolVector2Array( 0, 0, 0, 408, 1920, 408, 1920, 0 )
+
+[node name="Stairs2" parent="Floor" instance=ExtResource( 7 )]
+position = Vector2( 5528, -336 )
+
+[node name="Ground4" parent="Floor" instance=ExtResource( 6 )]
+position = Vector2( 2504, -1648 )
+polygon = PoolVector2Array( 928, 0, 928, 200, 1920, 200, 1920, 0 )
+
 [node name="Wall" type="StaticBody2D" parent="."]
 editor/display_folded = true
 
@@ -80,86 +100,8 @@ shape = SubResource( 2 )
 position = Vector2( 8248, -168 )
 shape = SubResource( 3 )
 
-[node name="Void" parent="." instance=ExtResource( 5 )]
+[node name="Void" parent="." instance=ExtResource( 8 )]
 position = Vector2( 0, 1282.4 )
-
-[node name="Platforms" type="Node2D" parent="."]
-
-[node name="StaticPlatform" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 4544, 872 )
-
-[node name="MovingPlatform" parent="Platforms" instance=ExtResource( 7 )]
-editor/display_folded = true
-position = Vector2( 6704, 696 )
-
-[node name="KinematicBody2D" parent="Platforms/MovingPlatform" index="0"]
-position = Vector2( 0.000488281, -427.875 )
-
-[node name="Path2D" parent="Platforms/MovingPlatform" index="1"]
-curve = ExtResource( 8 )
-
-[node name="PathFollow2D" parent="Platforms/MovingPlatform/Path2D" index="0"]
-position = Vector2( 0.000483619, -427.875 )
-offset = 427.703
-
-[node name="StaticPlatform2" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 7198.4, 264 )
-
-[node name="StaticPlatform3" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 7696, 264 )
-
-[node name="StaticPlatform5" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 7198.4, -168 )
-
-[node name="MovingPlatform2" parent="Platforms" instance=ExtResource( 7 )]
-editor/display_folded = true
-position = Vector2( 8128, 264 )
-
-[node name="Path2D" parent="Platforms/MovingPlatform2" index="1"]
-curve = ExtResource( 8 )
-
-[node name="MovingPlatform3" parent="Platforms" instance=ExtResource( 7 )]
-editor/display_folded = true
-position = Vector2( 6744, -168 )
-
-[node name="StaticPlatform4" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 7696, -168 )
-
-[node name="StaticPlatform6" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 5840, -264 )
-
-[node name="StaticPlatform7" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 5504, -336 )
-
-[node name="StaticPlatform8" parent="Platforms" instance=ExtResource( 6 )]
-position = Vector2( 5160, -392 )
-
-[node name="MovingPlatform4" parent="Platforms" instance=ExtResource( 7 )]
-editor/display_folded = true
-position = Vector2( 4712, -392 )
-
-[node name="KinematicBody2D" parent="Platforms/MovingPlatform4" index="0"]
-position = Vector2( 25.9678, -301.221 )
-
-[node name="Path2D" parent="Platforms/MovingPlatform4" index="1"]
-curve = ExtResource( 9 )
-
-[node name="PathFollow2D" parent="Platforms/MovingPlatform4/Path2D" index="0"]
-position = Vector2( 25.9675, -301.221 )
-offset = 535.128
-
-[node name="AnimationPlayer" parent="Platforms/MovingPlatform4" index="2"]
-autoplay = "LoopEndPathFollow"
-
-[node name="MovingPlatform5" parent="Platforms" instance=ExtResource( 7 )]
-position = Vector2( 2080, 960 )
-
-[node name="Path2D" parent="Platforms/MovingPlatform5" index="1"]
-editor/display_folded = false
-curve = SubResource( 4 )
-
-[node name="AnimationPlayer" parent="Platforms/MovingPlatform5" index="2"]
-playback_speed = 0.5
 
 [node name="Goal" type="Label" parent="."]
 margin_left = 3816.0
@@ -173,15 +115,7 @@ valign = 1
 autowrap = true
 [connection signal="dash_pressed" from="SingleJumpPlatformActor/ActionBus" to="SingleJumpPlatformActor/Walk" method="set_physics_process" binds= [ false ]]
 [connection signal="dash_released" from="SingleJumpPlatformActor/ActionBus" to="SingleJumpPlatformActor/Walk" method="set_physics_process" binds= [ true ]]
+[connection signal="jump_pressed" from="SingleJumpPlatformActor/ActionBus" to="SingleJumpPlatformActor/Jump" method="apply"]
+[connection signal="jump_released" from="SingleJumpPlatformActor/ActionBus" to="SingleJumpPlatformActor/Jump" method="cancel"]
 [connection signal="walk_pressed" from="SingleJumpPlatformActor/ActionBus" to="SingleJumpPlatformActor/Walk" method="set_movement_direction"]
 [connection signal="walk_released" from="SingleJumpPlatformActor/ActionBus" to="SingleJumpPlatformActor/Walk" method="stop"]
-
-[editable path="Platforms/MovingPlatform"]
-
-[editable path="Platforms/MovingPlatform2"]
-
-[editable path="Platforms/MovingPlatform3"]
-
-[editable path="Platforms/MovingPlatform4"]
-
-[editable path="Platforms/MovingPlatform5"]

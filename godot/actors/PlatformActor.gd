@@ -3,15 +3,12 @@ extends KinematicBody2D
 
 const FLOOR_NORMAL = Vector2.UP
 
-onready var path = $"../Path2D/PathFollow2D"
-
 var velocity = Vector2(0, 0)
 var snap_normal = Vector2.DOWN setget set_snap_normal
 
 func _physics_process(delta):
-	path.unit_offset += velocity.x
-	#velocity = move_and_slide_with_snap(velocity, snap_normal * 50,
-	#		FLOOR_NORMAL)
+	velocity = move_and_slide_with_snap(velocity, snap_normal * 50,			FLOOR_NORMAL)
+	#position.x = velocity.x * delta
 	if is_on_floor():
 		velocity.y = 0
 

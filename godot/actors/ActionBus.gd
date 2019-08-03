@@ -20,6 +20,9 @@ func _unhandled_input(event):
 	if not event.is_action_type():
 		return
 		
+	if event.is_action(jump):
+		handle_jump_action(event)
+		
 	if event.is_action(walk_left) or event.is_action(walk_right):
 		handle_walk_action(event)
 	
