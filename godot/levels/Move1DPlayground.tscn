@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://objects/platforms/moving_platform/movement_paths/HorizontalPath.tres" type="Curve2D" id=1]
 [ext_resource path="res://actors/1DController.gd" type="Script" id=2]
@@ -19,6 +19,9 @@
 
 [sub_resource type="RectangleShape2D" id=4]
 
+[sub_resource type="Animation" id=5]
+resource_name = "New Anim"
+
 [sub_resource type="RectangleShape2D" id=3]
 
 [node name="1DPlayground" type="Node2D"]
@@ -28,7 +31,6 @@ __meta__ = {
 }
 
 [node name="Path2D" type="Path2D" parent="."]
-editor/display_folded = true
 position = Vector2( 738.518, 750.952 )
 curve = ExtResource( 1 )
 
@@ -65,7 +67,6 @@ motion/sync_to_physics = true
 shape = SubResource( 2 )
 
 [node name="Controller" type="Node" parent="1DActor"]
-editor/display_folded = true
 
 [node name="Left" parent="1DActor/Controller" instance=ExtResource( 6 )]
 action = "left"
@@ -82,7 +83,7 @@ script = ExtResource( 7 )
 [node name="Dash" parent="1DActor/Actions" instance=ExtResource( 8 )]
 script = ExtResource( 9 )
 actor_path = NodePath("../../../Path2D/1DController")
-acceleration_factor = 1.07644
+acceleration_factor = 4.15909
 
 [node name="OffsetLimit" parent="1DActor/Actions/Dash" instance=ExtResource( 10 )]
 actor_path = NodePath("../../../../Path2D/1DController")
@@ -106,6 +107,9 @@ editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="1DActor/Area2D"]
 shape = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="1DActor"]
+"anims/New Anim" = SubResource( 5 )
 
 [node name="RedController" type="KinematicBody2D" parent="."]
 position = Vector2( 1551.57, 751.129 )
