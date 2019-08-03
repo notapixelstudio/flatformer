@@ -48,6 +48,7 @@ action = "right"
 action = "dash"
 
 [node name="Actions" type="Node" parent="1DActor"]
+editor/display_folded = true
 script = ExtResource( 5 )
 
 [node name="Dash" parent="1DActor/Actions" instance=ExtResource( 6 )]
@@ -65,14 +66,22 @@ movement_direction = Vector2( 1, 0 )
 
 [node name="Stop" parent="1DActor/Actions" instance=ExtResource( 9 )]
 actor_path = NodePath("../../../Path2D/1DController")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="1DActor"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 626.746, 920.082 )
+rotation = -2.41902
+current = true
 [connection signal="handling" from="1DActor/Controller/Left" to="1DActor/Actions" method="set_direction" binds= [ Vector2( -1, 0 ) ]]
 [connection signal="pressed" from="1DActor/Controller/Left" to="1DActor/Actions/Move" method="execute"]
-[connection signal="released" from="1DActor/Controller/Left" to="1DActor/Actions/Stop" method="execute"]
 [connection signal="released" from="1DActor/Controller/Left" to="1DActor/Controller/Right" method="is_holding"]
+[connection signal="released" from="1DActor/Controller/Left" to="1DActor/Actions/Stop" method="execute"]
 [connection signal="handling" from="1DActor/Controller/Right" to="1DActor/Actions" method="set_direction" binds= [ Vector2( 1, 0 ) ]]
 [connection signal="pressed" from="1DActor/Controller/Right" to="1DActor/Actions/Move" method="execute"]
-[connection signal="released" from="1DActor/Controller/Right" to="1DActor/Actions/Stop" method="execute"]
 [connection signal="released" from="1DActor/Controller/Right" to="1DActor/Controller/Left" method="is_holding"]
+[connection signal="released" from="1DActor/Controller/Right" to="1DActor/Actions/Stop" method="execute"]
 [connection signal="pressed" from="1DActor/Controller/Dash" to="1DActor/Actions/Dash" method="execute"]
 [connection signal="released" from="1DActor/Controller/Dash" to="1DActor/Actions/Dash" method="cancel"]
 [connection signal="finished" from="1DActor/Actions/Dash" to="1DActor/Controller/Left" method="is_holding"]
