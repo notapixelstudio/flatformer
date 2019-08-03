@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://objects/platforms/moving_platform/movement_paths/HorizontalPath.tres" type="Curve2D" id=1]
 [ext_resource path="res://actors/1DController.gd" type="Script" id=2]
@@ -27,6 +27,9 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 0.7619, 0.9405 ]
 }
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 20, 10 )
 
 [node name="1DPlayground" type="Node2D"]
 __meta__ = {
@@ -70,6 +73,7 @@ position = Vector2( 1600.06, 643.17 )
 rotation = -0.124451
 
 [node name="CollisionShape2D" parent="TheRe1D" index="0"]
+shape = SubResource( 2 )
 color = Color( 0.898039, 0, 0, 1 )
 
 [node name="1DActor" parent="." instance=ExtResource( 4 )]
