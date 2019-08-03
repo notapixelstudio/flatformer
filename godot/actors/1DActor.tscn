@@ -5,9 +5,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 50, 10 )
 
-[node name="1DActor" type="KinematicBody2D" groups=[
-"player",
-]]
+[node name="1DActor" type="KinematicBody2D"]
 z_index = 1
 collision_layer = 3
 
