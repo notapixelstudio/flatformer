@@ -42,7 +42,7 @@ func handle_input(event):
 			emit_signal("released")
 			get_tree().set_input_as_handled()
 
-var timer
+var timer = timeout
 func _process(delta):
 	if one_shot and timeout > 0:
 		if timer <= 0:

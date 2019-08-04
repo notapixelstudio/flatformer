@@ -1,9 +1,9 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://objects/platforms/moving_platform/movement_paths/HorizontalPath.tres" type="Curve2D" id=1]
 [ext_resource path="res://actors/1DController.gd" type="Script" id=2]
-[ext_resource path="res://levels/Line2D.gd" type="Script" id=3]
-[ext_resource path="res://actors/RedController.tscn" type="PackedScene" id=4]
+[ext_resource path="res://actors/RedController.tscn" type="PackedScene" id=3]
+[ext_resource path="res://levels/Line2D.gd" type="Script" id=4]
 [ext_resource path="res://actors/1DActor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://actors/player/PlayerAction.tscn" type="PackedScene" id=6]
 [ext_resource path="res://actors/Actions.gd" type="Script" id=7]
@@ -24,6 +24,26 @@ resource_name = "New Anim"
 
 [sub_resource type="RectangleShape2D" id=3]
 
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 45.2235, 10 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "enlarge"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("CollisionShape2D:shape:extents")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.9, 2.6, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 10 ), Vector2( 0, 10 ), Vector2( 10, 10 ), Vector2( 50, 10 ), Vector2( 30, 10 ), Vector2( 0, 10 ) ]
+}
+
 [node name="1DPlayground" type="Node2D"]
 __meta__ = {
 "_edit_horizontal_guides_": [ 960.0, 1280.0, 168.0, -264.0, -432.0, -488.0, -360.0, -792.0, -1320.0 ],
@@ -35,6 +55,7 @@ position = Vector2( 738.518, 750.952 )
 curve = ExtResource( 1 )
 
 [node name="1DController" type="PathFollow2D" parent="Path2D"]
+editor/display_folded = true
 rotation = 0.000218147
 loop = false
 script = ExtResource( 2 )
@@ -42,19 +63,26 @@ script = ExtResource( 2 )
 [node name="PlayerTransformer" type="RemoteTransform2D" parent="Path2D/1DController"]
 remote_path = NodePath("../../../1DActor")
 
-[node name="Line2D" type="Line2D" parent="Path2D"]
-width = 20.0
-texture_mode = -1185043872
-script = ExtResource( 3 )
-
-[node name="RedController" parent="Path2D" instance=ExtResource( 4 )]
-editor/display_folded = false
-position = Vector2( 813.051, 0.177365 )
+[node name="RedController" parent="Path2D" instance=ExtResource( 3 )]
+position = Vector2( 813.051, 0.177368 )
 rotation = 0.000218151
 offset = 807.951
 
 [node name="EnemyTransformer" parent="Path2D/RedController" index="0"]
 remote_path = NodePath("../../../RedController")
+
+[node name="Line2D" type="Line2D" parent="Path2D"]
+width = 20.0
+texture_mode = -1185043872
+script = ExtResource( 4 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2( 559.194, 0.121986 )
+rotation = 0.000218152
+offset = 555.893
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Path2D/PathFollow2D"]
+remote_path = NodePath("../../../Black")
 
 [node name="1DActor" parent="." groups=[
 "player",
@@ -76,6 +104,8 @@ action = "right"
 
 [node name="Dash" parent="1DActor/Controller" instance=ExtResource( 6 )]
 action = "dash"
+one_shot = true
+timeout = 3.0
 
 [node name="Actions" type="Node" parent="1DActor"]
 script = ExtResource( 7 )
@@ -129,6 +159,29 @@ scale = Vector2( 1, 1 )
 shape = SubResource( 3 )
 script = ExtResource( 13 )
 color = Color( 0.705882, 0.00392157, 0.00392157, 1 )
+
+[node name="Black" type="KinematicBody2D" parent="."]
+position = Vector2( 1297.71, 751.074 )
+rotation = 0.000218152
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Black"]
+shape = SubResource( 6 )
+script = ExtResource( 13 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="Void" parent="Black" instance=ExtResource( 14 )]
+rotation = 0.124456
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Black/Void"]
+rotation = -0.124456
+scale = Vector2( 1, 1 )
+shape = SubResource( 6 )
+script = ExtResource( 13 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Black"]
+autoplay = "enlarge"
+anims/enlarge = SubResource( 7 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 738.518, 750.952 )
