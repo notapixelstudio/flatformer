@@ -1,18 +1,19 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://objects/platforms/moving_platform/movement_paths/HorizontalPath.tres" type="Curve2D" id=1]
 [ext_resource path="res://actors/1DController.gd" type="Script" id=2]
 [ext_resource path="res://actors/RedController.tscn" type="PackedScene" id=3]
 [ext_resource path="res://levels/Line2D.gd" type="Script" id=4]
 [ext_resource path="res://actors/1DActor.tscn" type="PackedScene" id=5]
-[ext_resource path="res://actors/player/PlayerAction.tscn" type="PackedScene" id=6]
-[ext_resource path="res://actors/physics/StateMachine.tscn" type="PackedScene" id=7]
-[ext_resource path="res://actors/physics/State.tscn" type="PackedScene" id=8]
-[ext_resource path="res://actors/physics/Stop.tscn" type="PackedScene" id=9]
-[ext_resource path="res://actors/physics/Move.tscn" type="PackedScene" id=10]
-[ext_resource path="res://actors/physics/Dash.tscn" type="PackedScene" id=11]
-[ext_resource path="res://utility/Geometry2D.gd" type="Script" id=12]
-[ext_resource path="res://objects/InfiniteVoid.tscn" type="PackedScene" id=13]
+[ext_resource path="res://actors/player/Controls.gd" type="Script" id=6]
+[ext_resource path="res://actors/player/PlayerAction.tscn" type="PackedScene" id=7]
+[ext_resource path="res://actors/physics/StateMachine.tscn" type="PackedScene" id=8]
+[ext_resource path="res://actors/physics/State.tscn" type="PackedScene" id=9]
+[ext_resource path="res://actors/physics/Stop.tscn" type="PackedScene" id=10]
+[ext_resource path="res://actors/physics/Move.tscn" type="PackedScene" id=11]
+[ext_resource path="res://actors/physics/Dash.tscn" type="PackedScene" id=12]
+[ext_resource path="res://utility/Geometry2D.gd" type="Script" id=13]
+[ext_resource path="res://objects/InfiniteVoid.tscn" type="PackedScene" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -107,33 +108,33 @@ motion/sync_to_physics = true
 shape = SubResource( 1 )
 
 [node name="Controller" type="Node" parent="1DActor"]
+script = ExtResource( 6 )
 
-[node name="Left" parent="1DActor/Controller" instance=ExtResource( 6 )]
+[node name="Left" parent="1DActor/Controller" instance=ExtResource( 7 )]
 action = "left"
 
-[node name="Right" parent="1DActor/Controller" instance=ExtResource( 6 )]
+[node name="Right" parent="1DActor/Controller" instance=ExtResource( 7 )]
 action = "right"
 
-[node name="Dash" parent="1DActor/Controller" instance=ExtResource( 6 )]
+[node name="Dash" parent="1DActor/Controller" instance=ExtResource( 7 )]
 action = "dash"
-one_shot = true
-timeout = 3.0
 
-[node name="StateMachine" parent="1DActor/Controller" instance=ExtResource( 7 )]
+[node name="StateMachine" parent="1DActor/Controller" instance=ExtResource( 8 )]
 actor_path = NodePath("../../../Path2D/1DController")
 
-[node name="IdleState" parent="1DActor/Controller/StateMachine" instance=ExtResource( 8 )]
+[node name="IdleState" parent="1DActor/Controller/StateMachine" instance=ExtResource( 9 )]
 
-[node name="Stop" parent="1DActor/Controller/StateMachine/IdleState" instance=ExtResource( 9 )]
+[node name="Stop" parent="1DActor/Controller/StateMachine/IdleState" instance=ExtResource( 10 )]
+friction_factor = 6.72717
 
-[node name="MoveState" parent="1DActor/Controller/StateMachine" instance=ExtResource( 8 )]
+[node name="MoveState" parent="1DActor/Controller/StateMachine" instance=ExtResource( 9 )]
 
-[node name="Move" parent="1DActor/Controller/StateMachine/MoveState" instance=ExtResource( 10 )]
+[node name="Move" parent="1DActor/Controller/StateMachine/MoveState" instance=ExtResource( 11 )]
 speed = 300.0
 
-[node name="DashState" parent="1DActor/Controller/StateMachine" instance=ExtResource( 8 )]
+[node name="DashState" parent="1DActor/Controller/StateMachine" instance=ExtResource( 9 )]
 
-[node name="Dash" parent="1DActor/Controller/StateMachine/DashState" instance=ExtResource( 11 )]
+[node name="Dash" parent="1DActor/Controller/StateMachine/DashState" instance=ExtResource( 12 )]
 speed = 600.0
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="1DActor"]
@@ -155,16 +156,16 @@ scale = Vector2( 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RedController"]
 shape = SubResource( 4 )
-script = ExtResource( 12 )
+script = ExtResource( 13 )
 color = Color( 0.705882, 0.00392157, 0.00392157, 1 )
 
-[node name="Void" parent="RedController" instance=ExtResource( 13 )]
+[node name="Void" parent="RedController" instance=ExtResource( 14 )]
 rotation = 0.124456
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="RedController/Void"]
 rotation = -0.124456
 shape = SubResource( 4 )
-script = ExtResource( 12 )
+script = ExtResource( 13 )
 color = Color( 0.705882, 0.00392157, 0.00392157, 1 )
 
 [node name="Black" type="KinematicBody2D" parent="."]
@@ -174,17 +175,17 @@ scale = Vector2( 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Black"]
 shape = SubResource( 5 )
-script = ExtResource( 12 )
+script = ExtResource( 13 )
 color = Color( 0, 0, 0, 1 )
 
-[node name="Void" parent="Black" instance=ExtResource( 13 )]
+[node name="Void" parent="Black" instance=ExtResource( 14 )]
 rotation = 0.124456
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Black/Void"]
 rotation = -0.124456
 shape = SubResource( 5 )
 disabled = true
-script = ExtResource( 12 )
+script = ExtResource( 13 )
 color = Color( 0, 0, 0, 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Black"]
@@ -204,9 +205,9 @@ current = true
 [connection signal="released" from="1DActor/Controller/Right" to="1DActor/Controller/StateMachine" method="change_state_to" binds= [ "Idle" ]]
 [connection signal="pressed" from="1DActor/Controller/Dash" to="1DActor/Controller/StateMachine" method="change_state_to" binds= [ "Dash" ]]
 [connection signal="released" from="1DActor/Controller/Dash" to="1DActor/Controller/StateMachine" method="change_state_to" binds= [ "Idle" ]]
+[connection signal="entered" from="1DActor/Controller/StateMachine/IdleState" to="1DActor/Controller/StateMachine/IdleState/Stop" method="execute"]
 [connection signal="entered" from="1DActor/Controller/StateMachine/IdleState" to="1DActor/Controller/Right" method="is_holding"]
 [connection signal="entered" from="1DActor/Controller/StateMachine/IdleState" to="1DActor/Controller/Left" method="is_holding"]
-[connection signal="entered" from="1DActor/Controller/StateMachine/IdleState" to="1DActor/Controller/StateMachine/IdleState/Stop" method="execute"]
 [connection signal="entered" from="1DActor/Controller/StateMachine/MoveState" to="1DActor/Controller/StateMachine/MoveState/Move" method="execute"]
 [connection signal="entered" from="1DActor/Controller/StateMachine/DashState" to="1DActor/Controller/StateMachine/DashState/Dash" method="execute"]
 

@@ -10,7 +10,6 @@ func set_active(activate):
 	for command in get_children():
 		command.enabled = active
 	if active:
-		print(name + " entered")
 		emit_signal("entered")
 	else:
 		emit_signal("exited")
