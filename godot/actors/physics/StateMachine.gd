@@ -39,6 +39,6 @@ func cancel(command_name):
 	_current_state.cancel_command(command_name)
 
 
-func set_movement_direction(direction):
+func set_direction(direction):
 	for state in get_children():
-		state.set_movement_direction(direction)
+		state.set_direction(direction)

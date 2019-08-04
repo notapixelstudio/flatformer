@@ -9,6 +9,8 @@ func _physics_process(delta):
 
 
 func check_distance():
+	if not enabled:
+		return
 	if abs(initial_offset - actor.offset) > max_distance:
 		execute()
 

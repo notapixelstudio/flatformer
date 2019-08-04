@@ -6,23 +6,20 @@ export (float, EASE) var acceleration_factor = 1.0
 
 
 func _physics_process(delta):
-	if abs(actor.velocity.x) < speed:
-		actor.velocity.x = movement_direction.x * speed
-	else:
-		set_physics_process(false)
+	actor.velocity.x = lerp(actor.velocity.x, movement_direction.x * speed, 
+			acceleration_factor * delta)
 
 
 func execute():
 	if not enabled:
 		return
-	set_physics_process(true)
 	emit_signal("started")
 
 
 func set_direction(new_direction):
+	print(new_direction)
 	movement_direction = new_direction
 
 
 func cancel():
-	set_physics_process(false)
 	emit_signal("finished")
