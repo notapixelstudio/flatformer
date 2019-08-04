@@ -2,6 +2,7 @@ extends Line2D
 
 onready var path = $".."
 
+signal level_drawn
 
 func _ready():
 	var i = 0
@@ -10,4 +11,4 @@ func _ready():
 		if i %10 == 0:
 			yield(get_tree().create_timer(0.01), "timeout")
 		i +=1
-		
+	emit_signal("level_drawn")

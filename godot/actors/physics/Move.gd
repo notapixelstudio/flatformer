@@ -8,6 +8,7 @@ export (float, EASE) var acceleration_factor = 1.0
 func _physics_process(delta):
 	actor.velocity.x = lerp(actor.velocity.x, movement_direction.x * speed, 
 			acceleration_factor * delta)
+	actor.velocity.x = movement_direction.x * clamp(abs(actor.velocity.x), 0.0, speed)
 
 
 func execute():

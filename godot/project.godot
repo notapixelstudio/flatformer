@@ -34,6 +34,7 @@ _global_script_class_icons={
 
 config/name="1D Platformer"
 run/main_scene="res://levels/Move1DPlayground.tscn"
+boot_splash/bg_color=Color( 0.584314, 0.34902, 0.34902, 1 )
 config/icon="res://icon.png"
 
 [display]
@@ -74,4 +75,5 @@ left={
 [rendering]
 
 quality/2d/use_pixel_snap=true
+environment/default_clear_color=Color( 0.454902, 0.564706, 0.509804, 1 )
 environment/default_environment="res://default_env.tres"
