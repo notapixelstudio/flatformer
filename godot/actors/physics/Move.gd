@@ -7,7 +7,7 @@ export (float, EASE) var acceleration_factor = 1.0
 
 func _physics_process(delta):
 	if abs(actor.velocity.x) < speed:
-		actor.velocity.x = lerp(actor.velocity.x, movement_direction.x * speed, acceleration_factor * delta)
+		actor.velocity.x = movement_direction.x * speed
 	else:
 		set_physics_process(false)
 
